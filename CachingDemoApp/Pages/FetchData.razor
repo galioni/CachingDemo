@@ -13,17 +13,18 @@
 
 <button class="btn btn-primary" @onclick="LoadForecast">Load Forecast</button>
 
-@if (forecasts is null && loadLocation == string.Empty)
+@if (forecasts is null && loadLocation is null)
 {
     <p><em>Click the button to load the forecast</em></p>
 }
-
-@if (forecasts == null)
+else if (forecasts is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    <div class="h3 @isCacheData">@loadLocation</div>
+
     <table class="table">
         <thead>
             <tr>
@@ -49,8 +50,8 @@ else
 
 @code {
     private WeatherForecast[]? forecasts;
-    private string? loadLocation = string.Empty;
-    private string? isCacheData = string.Empty;
+    private string? loadLocation;
+    private string? isCacheData;
 
     private async Task LoadForecast()
     {
@@ -71,7 +72,7 @@ else
         }
         else
         {
-            loadLocation = $"Loaded from the cahce at {DateTime.Now}";
+            loadLocation = $"Loaded from the cache at {DateTime.Now}";
 
             isCacheData = "text-danger";
         }
